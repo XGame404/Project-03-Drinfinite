@@ -1,0 +1,5 @@
+E:/Unity Related/Unity Project/Project-03-Drinfinite-main/.utmp/RelWithDebInfo/2a2g5l6t/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/Unity Related/Unity Project/Project-03-Drinfinite-main/.utmp/RelWithDebInfo/2a2g5l6t/arm64-v8a/CMakeFiles/rebuild_cache.dir
+E:/Unity Related/Unity Project/Project-03-Drinfinite-main/.utmp/RelWithDebInfo/2a2g5l6t/arm64-v8a/GameActivity/CMakeFiles/game.dir
+E:/Unity Related/Unity Project/Project-03-Drinfinite-main/.utmp/RelWithDebInfo/2a2g5l6t/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+E:/Unity Related/Unity Project/Project-03-Drinfinite-main/.utmp/RelWithDebInfo/2a2g5l6t/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

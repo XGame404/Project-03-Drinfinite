@@ -845,7 +845,7 @@ MonoBehaviour:
     - line: '|   webGLCloseOnQuit: 0'
     - line: '|   webWasm2023: 0'
     - line: '|   scriptingDefineSymbols:'
-    - line: '|     Android: UNITY_POST_PROCESSING_STACK_V2;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS'
+    - line: '|     Android: UNITY_POST_PROCESSING_STACK_V2;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;LEVELPLAY_DEPENDENCIES_INSTALLED'
     - line: '|     EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2'
     - line: '|     GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2'
     - line: '|     Nintendo Switch: UNITY_POST_PROCESSING_STACK_V2'

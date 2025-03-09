@@ -1,143 +1,95 @@
 using UnityEngine;
-using UnityEngine.Advertisements;
-using UnityEngine.Purchasing;
+using UnityEngine.SceneManagement;
+using com.unity3d.mediation;
 
-public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
+public class BannerAdsManager : MonoBehaviour
 {
-    public static AdsManager instance;
+    public static BannerAdsManager instance;
 
-    [SerializeField] private string gameID = "5786608";
-    [SerializeField] private string bannerAdID = "Banner_Android";
-    private const string removeAdsProductID = "com.OutbreakCompany.Drinfinite.RemoveAds";
-    [SerializeField] GameObject Button;
-    [SerializeField] private bool TestingData;
+    [SerializeField] private string appKey = "demoAppKey";
+    [SerializeField] private string bannerAdUnitId = "defaultBannerAdUnitId";
+    [SerializeField] private GameObject fakeBanner;
+    private bool adsRemoved = false;
+    private LevelPlayBannerAd bannerAd;
+
     private void Awake()
     {
-        instance = this;
-        InitializeAds();
-
-
-        if (PlayerPrefs.GetInt("AdsRemoved", 0) == 1)
+        if (instance == null)
         {
-            Debug.Log("User already removed ads. Hiding ads.");
-            RemoveAds();
+            IronSource.Agent.setMetaData("is_test_suite", "true");
+            IronSource.Agent.setAdaptersDebug(true);
+            instance = this;
+            CheckAdStatus();
+            InitializeAds();
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void Update()
+    void CheckAdStatus()
     {
-        Button.SetActive(PlayerPrefs.GetInt("AdsRemoved", 0) != 1);
-        if (TestingData) 
-        {
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.Save();
-            Debug.Log("PlayerPrefs have been reset!");
-
-        }
+        adsRemoved = PlayerPrefs.GetInt("AdsRemoved", 0) == 1;
+        if (fakeBanner != null)
+            fakeBanner.SetActive(!adsRemoved);
     }
 
     void InitializeAds()
     {
-        Advertisement.Initialize(gameID, true, this);
+        if (adsRemoved) return;
+        if (SceneManager.GetActiveScene().name == "Gameplay")
+            return;
+
+        IronSource.Agent.init(appKey);
+        Debug.Log("IronSource Initialized with App Key: " + appKey);
+
+        bannerAd = new LevelPlayBannerAd(
+            bannerAdUnitId,
+            LevelPlayAdSize.BANNER,
+            LevelPlayBannerPosition.BottomCenter,
+            "DefaultPlacement",
+            false
+        );
+
+        bannerAd.OnAdLoaded += ShowBannerAd;
+        bannerAd.OnAdLoadFailed += OnBannerLoadFailed;
+        bannerAd.LoadAd();
+        Debug.Log("Banner Ad Requested with ID: " + bannerAdUnitId);
     }
 
+    private void ShowBannerAd(LevelPlayAdInfo adInfo)
+    {
+        if (adsRemoved) return;
+        Debug.Log("Banner ad successfully loaded.");
+        bannerAd.ShowAd();
+    }
+
+    private void OnBannerLoadFailed(LevelPlayAdError error)
+    {
+        Debug.LogError("Failed to load banner ad: " + error.ToString());
+    }
 
     public void ShowBannerAds()
     {
-        if (PlayerPrefs.GetInt("AdsRemoved", 0) == 1)
-        {
-            Debug.Log("Ads are already removed. No need to show banners.");
-            return;
-        }
-
-        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
-        Advertisement.Banner.Load("Banner_Android", new BannerLoadOptions
-        {
-            loadCallback = () =>
-            {
-                Debug.Log("Banner ad loaded successfully!");
-                Advertisement.Banner.Show("Banner_Android");
-
-    
-                GameObject adsHolder = GameObject.Find("AdsHolder");
-                if (adsHolder != null)
-                {
-                    adsHolder.SetActive(true);
-                    Debug.Log("AdsHolder activated.");
-                }
-            },
-            errorCallback = (message) =>
-            {
-                Debug.LogError("Failed to load banner ad: " + message);
-            }
-        });
-
-        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
-        Advertisement.Banner.Load(bannerAdID, new BannerLoadOptions
-        {
-            loadCallback = () =>
-            {
-                Debug.Log("Banner ad loaded successfully!");
-                Advertisement.Banner.Show(bannerAdID);
-            },
-            errorCallback = (message) =>
-            {
-                Debug.LogError("Failed to load banner ad: " + message);
-            }
-        });
+        if (adsRemoved || SceneManager.GetActiveScene().name == "Gameplay") return;
+        bannerAd.ShowAd();
+        Debug.Log("Banner ad displayed.");
     }
-
 
     public void RemoveAds()
     {
-        Debug.Log("Removing ads...");
+        adsRemoved = true;
         PlayerPrefs.SetInt("AdsRemoved", 1);
         PlayerPrefs.Save();
-        Advertisement.Banner.Hide();
-        Debug.Log("Ads should now be hidden!");
-    }
-
-    public void OnPurchaseSuccess(Product product)
-    {
-        if (product.definition.id == removeAdsProductID)
+        if (bannerAd != null)
         {
-            Debug.Log("Purchase successful: Removing ads.");
-            RemoveAds();
+            bannerAd.HideAd();
         }
-    }
-
-
-    public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
-    {
-        Debug.LogError($"Purchase failed for {product.definition.id}: {reason}");
-    }
-
-
-    public void OnTransactionsFetched()
-    {
-        Debug.Log("Fetching transactions...");
-
-        if (PlayerPrefs.GetInt("AdsRemoved", 0) == 1)
+        if (fakeBanner != null)
         {
-            Debug.Log("User has already purchased Remove Ads. Hiding ads.");
-            RemoveAds();
+            fakeBanner.SetActive(false);
         }
-        else
-        {
-            Debug.Log("No previous purchase found.");
-        }
+        Debug.Log("Ads removed and hidden.");
     }
-
-    public void OnInitializationComplete()
-    {
-        Debug.Log("Unity Ads Initialization Complete!");
-        ShowBannerAds();
-    }
-
-    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
-    {
-        Debug.LogError($"Unity Ads Initialization failed: {error} - {message}");
-    }
-
-
 }

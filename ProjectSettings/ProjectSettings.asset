@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Drinfinite
+  productName: Project 03 - Drinfinite
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -817,7 +817,7 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Android: UNITY_POST_PROCESSING_STACK_V2
+    Android: UNITY_POST_PROCESSING_STACK_V2;LEVELPLAY_DEPENDENCIES_INSTALLED
     EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2
     GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2
     Nintendo Switch: UNITY_POST_PROCESSING_STACK_V2
@@ -923,7 +923,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Purchasing: 1
-    Unity Ads: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -945,10 +945,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: c4f2f50c-e5e5-4bc8-9e62-d3c6dfd2aec0
+  cloudProjectId: 87993e04-5b48-4dd4-98ee-896c84187e71
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Drinfinite (3)
+  projectName: Project 03 - Drinfinite
   organizationId: trannhat7903
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

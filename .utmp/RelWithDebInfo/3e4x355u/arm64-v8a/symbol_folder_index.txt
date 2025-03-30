@@ -1,0 +1,1 @@
+C:\Users\trann\Downloads\Project-03-Drinfinite\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\3e4x355u\obj\arm64-v8a
